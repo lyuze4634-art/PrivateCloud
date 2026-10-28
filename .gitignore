@@ -1,0 +1,22 @@
+# Runtime configuration and secrets
+/config/config.php
+
+# Uploaded files
+/storage/files/*
+!/storage/files/.gitkeep
+
+# Runtime and test output
+/output/
+*.log
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+/.idea/
+/.vscode/
+
+# Local environment overrides
+.env
+.env.*
+!.env.example

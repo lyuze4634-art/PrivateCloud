@@ -1,0 +1,31 @@
+Options -Indexes
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 私有目录和部署文件不允许通过 Web 访问。
+    RewriteRule ^(?:app|config|storage|tools|output)(?:/|$) - [F,L,NC]
+    RewriteRule ^(?:database\.sql|README\.md|desktop\.ini)$ - [F,L,NC]
+
+    # PHP 实现只允许经由根目录公开入口调用，public/assets 保持可读。
+    RewriteRule ^public/(?!assets(?:/|$)) - [F,L,NC]
+</IfModule>
+
+<FilesMatch "(?i)^(?:database\.sql|README\.md|desktop\.ini)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule php_module>
+    php_value post_max_size 0
+    php_value upload_max_filesize 0
+    php_value max_execution_time 0
+    php_value max_input_time -1
+    php_value memory_limit -1
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "no-referrer"
+</IfModule>
